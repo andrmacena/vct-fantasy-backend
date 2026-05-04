@@ -25,14 +25,5 @@ namespace VctFantasy.Controllers
 
             return Ok(token);
         }
-
-        [HttpGet]
-        [Route("users")]
-        [Authorize(Roles = "admin")]
-        public IActionResult AllUsers()
-        {
-
-            return Ok(new User() { Id = 1, Email = "teste@gmail", CreatedAt = DateTime.UtcNow, Roles = new List<Roles> { new Roles { Id = 1, Name = "admin" } } });
-        }
     }
 }
