@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VctFantasy.Domain.Models
 {
-    public class Roles
+    public class Role
     {
         public int Id { get; set; }
         public string Name { get; set; }
