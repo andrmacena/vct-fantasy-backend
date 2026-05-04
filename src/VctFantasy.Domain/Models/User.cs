@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace VctFantasy.Domain.Models
 {
@@ -10,7 +11,8 @@ namespace VctFantasy.Domain.Models
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public List<Roles> Roles { get; set; }
+        [JsonIgnore]
+        public List<Role>? Roles { get; set; } = new List<Role>() { new Role { Name = "user" } };
 
         public Team? Team { get; set; }
         public int TeamID { get; set; }
