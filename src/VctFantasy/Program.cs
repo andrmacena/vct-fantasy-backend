@@ -4,13 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VctFantasy.Domain.Context;
+using VctFantasy.Domain.Services;
+using VctFantasy.Domain.UseCases;
 using VctFantasy.Infrastructure.Services;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddTransient<TokenService>();
+builder.Services.AddTransient<PasswordHasherService>();
+builder.Services.AddTransient<RegisterUserUseCase>();
+builder.Services.AddTransient<AuthenticationUseCase>();
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication(x =>

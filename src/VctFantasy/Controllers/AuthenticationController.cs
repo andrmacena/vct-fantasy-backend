@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VctFantasy.Domain.Models;
+using VctFantasy.Domain.UseCases;
 using VctFantasy.Infrastructure.Services;
 
 namespace VctFantasy.Controllers
@@ -10,16 +11,25 @@ namespace VctFantasy.Controllers
     public class AuthenticationController : Controller
     {
         private readonly TokenService _tokenService;
+        private readonly AuthenticationUseCase _authenticationUseCase;
 
-        public AuthenticationController(TokenService tokenService)
+        public AuthenticationController(TokenService tokenService, AuthenticationUseCase authenticationUseCase)
         {
             _tokenService = tokenService;
+            _authenticationUseCase = authenticationUseCase;
         }
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login([FromBody] User user)
+        public async Task<IActionResult> Login([FromBody] User user)
         {
+
+            var loginResult = await _authenticationUseCase.Login(user);
+
+            if (loginResult != "Login Successful")
+            {
+                return Unauthorized("Invalid email or password.");
+            }
 
             var token = _tokenService.GenerateToken(user);
 

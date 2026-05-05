@@ -23,7 +23,7 @@ namespace VctFantasy.Controllers
             
             _registerUserUseCase.RegisterUser(user);
 
-            return Ok(user);
+            return Created();
         }
 
         [HttpGet]
