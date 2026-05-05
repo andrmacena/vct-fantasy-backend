@@ -47,7 +47,10 @@ namespace VctFantasy.Domain.Context
                 .Property(p => p.Email).HasColumnType("nvarchar(150)");
 
             modelBuilder.Entity<User>()
-                .Property(p => p.PasswordHash).HasColumnType("nvarchar(100)");
+                .Property(p => p.PasswordHash).HasColumnType("nvarchar(200)");
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.PasswordSalt).HasColumnType("nvarchar(200)");
         }
 
         private void ConfigureRoleEntity(ModelBuilder modelBuilder)
