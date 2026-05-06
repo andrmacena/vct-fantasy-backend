@@ -12,8 +12,8 @@ using VctFantasy.Domain.Context;
 namespace VctFantasy.Domain.Migrations
 {
     [DbContext(typeof(VctFantasyContext))]
-    [Migration("20260503224442_AjustePropTeam")]
-    partial class AjustePropTeam
+    [Migration("20260506160821_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,21 +25,6 @@ namespace VctFantasy.Domain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("RolesUser", b =>
-                {
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RolesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UserRoles", (string)null);
-                });
-
             modelBuilder.Entity("VctFantasy.Domain.Models.Organization", b =>
                 {
                     b.Property<int>("Id")
@@ -50,15 +35,15 @@ namespace VctFantasy.Domain.Migrations
 
                     b.Property<string>("Abbreviation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PathLogoOrg")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
 
@@ -99,7 +84,7 @@ namespace VctFantasy.Domain.Migrations
 
                     b.Property<string>("Nickname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("OrgID")
                         .HasColumnType("int");
@@ -125,7 +110,7 @@ namespace VctFantasy.Domain.Migrations
                     b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("VctFantasy.Domain.Models.Roles", b =>
+            modelBuilder.Entity("VctFantasy.Domain.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,7 +123,7 @@ namespace VctFantasy.Domain.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -148,7 +133,10 @@ namespace VctFantasy.Domain.Migrations
             modelBuilder.Entity("VctFantasy.Domain.Models.Team", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -159,9 +147,15 @@ namespace VctFantasy.Domain.Migrations
 
                     b.Property<string>("PathLogoTeam")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("Teams");
                 });
@@ -179,33 +173,25 @@ namespace VctFantasy.Domain.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("TeamID")
-                        .HasColumnType("int");
+                    b.Property<string>("PasswordSalt")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("RoleID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(2);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleID");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("RolesUser", b =>
-                {
-                    b.HasOne("VctFantasy.Domain.Models.Roles", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VctFantasy.Domain.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("VctFantasy.Domain.Models.Player", b =>
@@ -227,16 +213,30 @@ namespace VctFantasy.Domain.Migrations
                 {
                     b.HasOne("VctFantasy.Domain.Models.User", "User")
                         .WithOne("Team")
-                        .HasForeignKey("VctFantasy.Domain.Models.Team", "Id")
+                        .HasForeignKey("VctFantasy.Domain.Models.Team", "UserID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VctFantasy.Domain.Models.User", b =>
+                {
+                    b.HasOne("VctFantasy.Domain.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleID");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("VctFantasy.Domain.Models.Organization", b =>
                 {
                     b.Navigation("Players");
+                });
+
+            modelBuilder.Entity("VctFantasy.Domain.Models.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("VctFantasy.Domain.Models.Team", b =>

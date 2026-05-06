@@ -17,9 +17,9 @@ namespace VctFantasy.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Abbreviation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PathLogoOrg = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    Abbreviation = table.Column<string>(type: "nvarchar(10)", nullable: false),
+                    PathLogoOrg = table.Column<string>(type: "nvarchar(300)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace VctFantasy.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(30)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -46,57 +46,41 @@ namespace VctFantasy.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(150)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TeamID = table.Column<int>(type: "int", nullable: false)
+                    RoleID = table.Column<int>(type: "int", nullable: true, defaultValue: 2)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleID",
+                        column: x => x.RoleID,
+                        principalTable: "Roles",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PathLogoTeam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    PathLogoTeam = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_Users_Id",
-                        column: x => x.Id,
+                        name: "FK_Teams_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
-                    RolesId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.RolesId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RolesId",
-                        column: x => x.RolesId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Users_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,14 +89,14 @@ namespace VctFantasy.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nickname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rating = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Acs = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Acs = table.Column<int>(type: "int", nullable: false),
                     Kills = table.Column<int>(type: "int", nullable: false),
                     Deaths = table.Column<int>(type: "int", nullable: false),
                     Assists = table.Column<int>(type: "int", nullable: false),
                     Kast = table.Column<int>(type: "int", nullable: false),
-                    Adr = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Adr = table.Column<int>(type: "int", nullable: false),
                     Fb = table.Column<int>(type: "int", nullable: false),
                     Fd = table.Column<int>(type: "int", nullable: false),
                     Score = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -147,9 +131,15 @@ namespace VctFantasy.Domain.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UsersId",
-                table: "UserRoles",
-                column: "UsersId");
+                name: "IX_Teams_UserID",
+                table: "Teams",
+                column: "UserID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleID",
+                table: "Users",
+                column: "RoleID");
         }
 
         /// <inheritdoc />
@@ -159,19 +149,16 @@ namespace VctFantasy.Domain.Migrations
                 name: "Players");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
-
-            migrationBuilder.DropTable(
                 name: "Organizations");
 
             migrationBuilder.DropTable(
                 name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Roles");
         }
     }
 }

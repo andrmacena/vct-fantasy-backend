@@ -26,13 +26,13 @@ namespace VctFantasy.Controllers
             return Created();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("teams")]
         [Authorize(Roles = "user")]
-        public IActionResult AllUsers()
+        public IActionResult RegisterTeam([FromBody] Team team)
         {
 
-            return Ok(new User() { Id = 1, Email = "teste@gmail", CreatedAt = DateTime.UtcNow, Roles = new List<Role> { new Role { Id = 1, Name = "admin" } } });
+            return Ok(new User() { Id = 1, Email = "teste@gmail", CreatedAt = DateTime.UtcNow });
         }
     }
 }

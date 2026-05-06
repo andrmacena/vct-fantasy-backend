@@ -26,12 +26,12 @@ namespace VctFantasy.Controllers
 
             var loginResult = await _authenticationUseCase.Login(user);
 
-            if (loginResult != "Login Successful")
+            if (loginResult == null)
             {
                 return Unauthorized("Invalid email or password.");
             }
 
-            var token = _tokenService.GenerateToken(user);
+            var token = _tokenService.GenerateToken(loginResult);
 
             return Ok(token);
         }

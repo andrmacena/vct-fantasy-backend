@@ -13,10 +13,9 @@ namespace VctFantasy.Domain.Models
         public string? PasswordSalt { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         [JsonIgnore]
-        public List<Role>? Roles { get; set; } = new List<Role>() { new Role { Name = "user" } };
-
+        public int? RoleID { get; set; }
+        public Role? Role { get; set; }
         public Team? Team { get; set; }
-        public int TeamID { get; set; }
 
 
     }

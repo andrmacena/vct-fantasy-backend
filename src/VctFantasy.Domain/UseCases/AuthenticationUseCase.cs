@@ -16,13 +16,13 @@ namespace VctFantasy.Domain.UseCases
             _context = vctFantasyContext;
         }
 
-        public async Task<string> Login(User user)
+        public async Task<User> Login(User user)
         {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
 
             if (existingUser == null)
             {
-                return "You are not registered, please register yourself";
+                return existingUser;
             }
 
             var passwordHash = Rfc2898DeriveBytes.Pbkdf2(user.PasswordHash,
@@ -35,9 +35,10 @@ namespace VctFantasy.Domain.UseCases
 
             if (compareResult)
             {
-                return "Login Successful";
+                return existingUser;
             }
-            return "Login not implemented";
+            return existingUser;
         }
+
     }
 }

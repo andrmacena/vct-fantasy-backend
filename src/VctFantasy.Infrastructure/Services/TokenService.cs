@@ -4,12 +4,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using VctFantasy.Domain.Models;
+using VctFantasy.Domain.UseCases;
 
 namespace VctFantasy.Infrastructure.Services
 {
     public class TokenService
     {
         private const string SecretKey = "secretkey";
+        private readonly AuthenticationUseCase _authenticationUseCase;
+
+        public TokenService(AuthenticationUseCase authenticationUseCase)
+        {
+            _authenticationUseCase = authenticationUseCase;
+        }
 
         public string GenerateToken(User user)
         {
@@ -40,8 +47,7 @@ namespace VctFantasy.Infrastructure.Services
             var ci = new ClaimsIdentity();
             ci.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
-            foreach (var role in user.Roles)
-                ci.AddClaim(new Claim(ClaimTypes.Role, role.Name));
+            ci.AddClaim(new Claim(ClaimTypes.Role, user.RoleID == 2 ? "user": ""));
 
             return ci;
         }

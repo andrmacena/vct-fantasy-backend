@@ -34,10 +34,6 @@ namespace VctFantasy.Domain.Context
 
         private void ConfigureUserEntity(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                    .HasMany(u => u.Roles)
-                    .WithMany(r => r.Users)
-                    .UsingEntity(j => j.ToTable("UserRoles"));
 
             modelBuilder.Entity<User>().HasOne(u => u.Team)
                 .WithOne(t => t.User)
@@ -51,6 +47,9 @@ namespace VctFantasy.Domain.Context
 
             modelBuilder.Entity<User>()
                 .Property(p => p.PasswordSalt).HasColumnType("nvarchar(200)");
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.RoleID).HasDefaultValue(2);
         }
 
         private void ConfigureRoleEntity(ModelBuilder modelBuilder)
@@ -66,6 +65,11 @@ namespace VctFantasy.Domain.Context
 
             modelBuilder.Entity<Team>()
                 .Property(p => p.PathLogoTeam).HasColumnType("nvarchar(300)");
+
+            modelBuilder.Entity<Team>().HasOne(t => t.User)
+                .WithOne(u => u.Team)
+                .HasForeignKey<Team>(t => t.UserID);
+
         }
 
         private void ConfigureOrganizationEntity(ModelBuilder modelBuilder)
