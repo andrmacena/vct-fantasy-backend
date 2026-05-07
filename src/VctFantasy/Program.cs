@@ -13,7 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddTransient<TokenService>();
 builder.Services.AddTransient<PasswordHasherService>();
+
 builder.Services.AddTransient<RegisterUserUseCase>();
+builder.Services.AddTransient<RegisterTeamUseCase>();
 builder.Services.AddTransient<AuthenticationUseCase>();
 
 builder.Services.AddControllers();
