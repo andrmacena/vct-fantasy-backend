@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VctFantasy.Domain.Context;
-using VctFantasy.Domain.Models;
+using VctFantasy.Domain.Dtos;
 using VctFantasy.Domain.UseCases;
 
 namespace VctFantasy.Controllers
@@ -11,16 +11,18 @@ namespace VctFantasy.Controllers
     public class RegisterController : Controller
     {
         private readonly RegisterUserUseCase _registerUserUseCase;
-        public RegisterController(RegisterUserUseCase registerUserUseCase)
+        private readonly RegisterTeamUseCase _registerTeamUseCase;
+        public RegisterController(RegisterUserUseCase registerUserUseCase, RegisterTeamUseCase registerTeamUseCase)
         {
             _registerUserUseCase = registerUserUseCase;
+            _registerTeamUseCase = registerTeamUseCase;
         }
 
         [HttpPost]
         [Route("users")]
-        public IActionResult RegisterUser([FromBody] User user)
+        public IActionResult RegisterUser([FromBody] UserDto user)
         {
-            
+
             _registerUserUseCase.RegisterUser(user);
 
             return Created();
@@ -29,10 +31,22 @@ namespace VctFantasy.Controllers
         [HttpPost]
         [Route("teams")]
         [Authorize(Roles = "user")]
-        public IActionResult RegisterTeam([FromBody] Team team)
+        public IActionResult RegisterTeam([FromBody] TeamDto team)
         {
+            string email = string.Empty;
 
-            return Ok(new User() { Id = 1, Email = "teste@gmail", CreatedAt = DateTime.UtcNow });
+            foreach (var claim in User.Claims)
+            {
+                if (claim.Type.Contains("email"))
+                {
+                    email = claim.Value;
+                }
+            }
+
+            _registerTeamUseCase.RegisterTeam(team, email);
+            
+            return Created();
         }
+
     }
 }

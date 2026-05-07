@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using VctFantasy.Domain.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using VctFantasy.Domain.Dtos;
 using VctFantasy.Domain.UseCases;
 using VctFantasy.Infrastructure.Services;
 
@@ -21,7 +20,7 @@ namespace VctFantasy.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] User user)
+        public async Task<IActionResult> Login([FromBody] UserDto user)
         {
 
             var loginResult = await _authenticationUseCase.Login(user);
