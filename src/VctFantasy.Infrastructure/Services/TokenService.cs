@@ -47,7 +47,7 @@ namespace VctFantasy.Infrastructure.Services
             var ci = new ClaimsIdentity();
             ci.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
-            ci.AddClaim(new Claim(ClaimTypes.Role, user.RoleID == 2 ? "user": ""));
+            ci.AddClaim(new Claim(ClaimTypes.Role, user.RoleID == (int)Role.RoleType.User ? "user": ""));
 
             return ci;
         }
