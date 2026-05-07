@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using VctFantasy.Domain.Context;
+using VctFantasy.Domain.Dtos;
 using VctFantasy.Domain.Models;
 using VctFantasy.Domain.Services;
 
@@ -20,13 +21,18 @@ namespace VctFantasy.Domain.UseCases
             _hasherService = passwordHasher;
         }
 
-        public string RegisterUser(User user)
+        public string RegisterUser(UserDto userDto)
         {
             try
             {
-
+                
                 var salt = _hasherService.GenerateSalt();
-                var passwordHash = _hasherService.GenerateHash(user.PasswordHash, salt);
+                var passwordHash = _hasherService.GenerateHash(userDto.Password, salt);
+
+                var user = new User
+                {
+                    Email = userDto.Email
+                };
 
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = salt;

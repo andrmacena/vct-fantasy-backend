@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using VctFantasy.Domain.Context;
+using VctFantasy.Domain.Dtos;
 using VctFantasy.Domain.Models;
 
 namespace VctFantasy.Domain.UseCases
@@ -16,16 +15,16 @@ namespace VctFantasy.Domain.UseCases
             _context = vctFantasyContext;
         }
 
-        public async Task<User> Login(User user)
+        public async Task<User> Login(UserDto userDto)
         {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == userDto.Email);
 
             if (existingUser == null)
             {
                 return existingUser;
             }
 
-            var passwordHash = Rfc2898DeriveBytes.Pbkdf2(user.PasswordHash,
+            var passwordHash = Rfc2898DeriveBytes.Pbkdf2(userDto.Password,
                                 Encoding.UTF8.GetBytes(existingUser.PasswordSalt),
                                 350000, // Iterations
                                 HashAlgorithmName.SHA512,  // Algorithm
@@ -37,6 +36,7 @@ namespace VctFantasy.Domain.UseCases
             {
                 return existingUser;
             }
+
             return existingUser;
         }
 
