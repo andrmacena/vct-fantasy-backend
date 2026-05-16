@@ -11,11 +11,11 @@ using VctFantasy.Domain.Services;
 
 namespace VctFantasy.Domain.UseCases
 {
-    public class RegisterUserUseCase
+    public class UserUseCase
     {
         private readonly VctFantasyContext _context;
         private readonly PasswordHasherService _hasherService;
-        public RegisterUserUseCase(VctFantasyContext context, PasswordHasherService passwordHasher)
+        public UserUseCase(VctFantasyContext context, PasswordHasherService passwordHasher)
         {
             _context = context;
             _hasherService = passwordHasher;

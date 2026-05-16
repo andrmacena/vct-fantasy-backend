@@ -8,10 +8,10 @@ using VctFantasy.Domain.Models;
 
 namespace VctFantasy.Domain.UseCases
 {
-    public class RegisterTeamUseCase
+    public class TeamUseCase
     {
         private readonly VctFantasyContext _context;
-        public RegisterTeamUseCase(VctFantasyContext context)
+        public TeamUseCase(VctFantasyContext context)
         {
             _context = context;
         }
