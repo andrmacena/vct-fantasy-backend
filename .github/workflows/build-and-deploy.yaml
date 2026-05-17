@@ -2,7 +2,7 @@ name: Build and deploy ASP.Net Core app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: vctfantasy    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: './myapp'      # set this to the path to your web app project
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project
   DOTNET_VERSION: '10'                 # set this to the .NET Core version to use
   PATH_BUILD_SLN: 'src/VctFantasy.slnx'
   PATH_APPSETTINGS: 'src/VctFantasy/appsettings.json'
@@ -71,7 +71,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-          path: ./myapp
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
