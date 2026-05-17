@@ -34,5 +34,13 @@ namespace VctFantasy.Controllers
 
             return Ok(token);
         }
+
+        [HttpGet]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // Implementation for logout if needed
+            return Ok();
+        }
     }
 }
