@@ -39,13 +39,13 @@ jobs:
         run: dotnet build --configuration Release ${{ env.PATH_BUILD_SLN }}
 
       - name: dotnet publish
-        run: dotnet publish -c Release ${{ env.PATH_BUILD_SLN }} -o ${{env.DOTNET_ROOT}}
+        run: dotnet publish -c Release ${{ env.PATH_BUILD_SLN }} -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   create-pull-request:
     runs-on: ubuntu-latest
