@@ -10,12 +10,16 @@ namespace VctFantasy.Controllers
     [Route("v1/register")]
     public class RegisterController : Controller
     {
-        private readonly RegisterUserUseCase _registerUserUseCase;
-        private readonly RegisterTeamUseCase _registerTeamUseCase;
-        public RegisterController(RegisterUserUseCase registerUserUseCase, RegisterTeamUseCase registerTeamUseCase)
+        private readonly UserUseCase _registerUserUseCase;
+        private readonly TeamUseCase _registerTeamUseCase;
+        private readonly OrganizationUseCase _organizationUseCase;
+        private readonly PlayerUseCase _playerUseCase;
+        public RegisterController(UserUseCase registerUserUseCase, TeamUseCase registerTeamUseCase, OrganizationUseCase organizationUseCase, PlayerUseCase playerUseCase)
         {
             _registerUserUseCase = registerUserUseCase;
             _registerTeamUseCase = registerTeamUseCase;
+            _organizationUseCase = organizationUseCase;
+            _playerUseCase = playerUseCase;
         }
 
         [HttpPost]
@@ -44,9 +48,31 @@ namespace VctFantasy.Controllers
             }
 
             _registerTeamUseCase.RegisterTeam(team, email);
-            
+
             return Created();
         }
 
+        [HttpPost]
+        [Route("orgs")]
+        [Authorize(Roles = "admin")]
+        public IActionResult RegisterOrganization([FromBody] List<OrganizationDto> organization)
+        {
+            _organizationUseCase.RegisterOrganization(organization);
+            
+            return Created();
+
+        }
+
+        [HttpPost]
+        [Route("players")]
+        [Authorize(Roles = "admin")]
+        public IActionResult RegisterPlayers([FromBody] List<PlayerDto> players)
+        {
+            _playerUseCase.RegisterPlayer(players);
+
+            return Created();
+
+        }
     }
 }
+
