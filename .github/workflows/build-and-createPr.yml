@@ -5,10 +5,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '10'                 # set this to the .NET Core version to use
   PATH_BUILD_SLN: 'src/VctFantasy.slnx'
-  AppSettings__Credentials__ClientId: ${{ secrets.TWITCH_CLIENT_ID }}
-  AppSettings__Credentials__ClientSecret: ${{ secrets.TWITCH_CLIENT_SECRET}}
   
-
 on:
   push:
     branches: ["feature**"]
