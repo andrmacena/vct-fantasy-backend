@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos;
 using VctFantasy.Domain.UseCases;
+using VctFantasy.Domain.Util;
 
 namespace VctFantasy.Controllers
 {
@@ -14,12 +17,14 @@ namespace VctFantasy.Controllers
         private readonly TeamUseCase _registerTeamUseCase;
         private readonly OrganizationUseCase _organizationUseCase;
         private readonly PlayerUseCase _playerUseCase;
-        public RegisterController(UserUseCase registerUserUseCase, TeamUseCase registerTeamUseCase, OrganizationUseCase organizationUseCase, PlayerUseCase playerUseCase)
+        private readonly AppSettings _appSettings;
+        public RegisterController(UserUseCase registerUserUseCase, TeamUseCase registerTeamUseCase, OrganizationUseCase organizationUseCase, PlayerUseCase playerUseCase, IOptions<AppSettings> appSettings)
         {
             _registerUserUseCase = registerUserUseCase;
             _registerTeamUseCase = registerTeamUseCase;
             _organizationUseCase = organizationUseCase;
             _playerUseCase = playerUseCase;
+            _appSettings = appSettings.Value;
         }
 
         [HttpPost]
@@ -58,7 +63,7 @@ namespace VctFantasy.Controllers
         public IActionResult RegisterOrganization([FromBody] List<OrganizationDto> organization)
         {
             _organizationUseCase.RegisterOrganization(organization);
-            
+
             return Created();
 
         }
@@ -72,6 +77,34 @@ namespace VctFantasy.Controllers
 
             return Created();
 
+        }
+
+        [HttpGet]
+        [Route("health")]
+        public IActionResult Conexao()
+        {
+
+            var cmd = new SqlCommand();
+            var cs = _appSettings.DefaultConnection;
+            SqlConnection conn = null;
+            try
+            {
+                conn = new SqlConnection(cs);
+                conn.Open();
+                cmd = new SqlCommand("SELECT @@VERSION", conn);
+                return Ok(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Database error: {ex.Message}");
+                throw;
+            }
+            finally
+            {
+                conn?.Close();
+                conn?.Dispose();
+            }
+            
         }
     }
 }

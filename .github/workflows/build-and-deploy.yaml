@@ -35,15 +35,6 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-      
-      - name: App Settings Variable Substitution
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.PATH_APPSETTINGS }}
-        env:
-          # Use dot notation to reach nested JSON keys
-          AppSettings.DefaultConnection: ${{ secrets.DB_CONNECTION }}
-          AppSettings.SecretKey: ${{ secrets.SECRET_KEY }}
 
       - name: Build with dotnet
         run: dotnet build --configuration Release ${{ env.PATH_BUILD_SLN }}
