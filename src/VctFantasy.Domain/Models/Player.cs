@@ -21,5 +21,6 @@ namespace VctFantasy.Domain.Models
         public decimal Score { get; set; } = 0;
         public Organization Organization { get; set; }
         public int OrganizationId { get; set; }
+        public List<Team> Teams { get; set; }
     }
 }

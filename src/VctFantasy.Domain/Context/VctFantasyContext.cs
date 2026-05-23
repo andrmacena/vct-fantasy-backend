@@ -16,6 +16,7 @@ namespace VctFantasy.Domain.Context
         public DbSet<Team> Teams { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<PlayerTeam> PlayerTeams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,7 +24,7 @@ namespace VctFantasy.Domain.Context
             ConfigureUserEntity(modelBuilder);
 
             ConfigureTeamEntity(modelBuilder);
-            
+
             ConfigureOrganizationEntity(modelBuilder);
 
             ConfigurePlayerEntity(modelBuilder);
@@ -70,6 +71,8 @@ namespace VctFantasy.Domain.Context
                 .WithOne(u => u.Team)
                 .HasForeignKey<Team>(t => t.UserID);
 
+            modelBuilder.Entity<Team>().HasMany(t => t.Players)
+                .WithMany(p => p.Teams).UsingEntity<PlayerTeam>();
         }
 
         private void ConfigureOrganizationEntity(ModelBuilder modelBuilder)

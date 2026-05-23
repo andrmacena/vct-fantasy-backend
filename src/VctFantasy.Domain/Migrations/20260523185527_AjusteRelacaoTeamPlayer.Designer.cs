@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VctFantasy.Domain.Context;
 
@@ -11,9 +12,11 @@ using VctFantasy.Domain.Context;
 namespace VctFantasy.Domain.Migrations
 {
     [DbContext(typeof(VctFantasyContext))]
-    partial class VctFantasyContextModelSnapshot : ModelSnapshot
+    [Migration("20260523185527_AjusteRelacaoTeamPlayer")]
+    partial class AjusteRelacaoTeamPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace VctFantasy.Domain.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("PlayerTeam", b =>
+                {
+                    b.Property<int>("PlayersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlayersId", "TeamsId");
+
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("PlayerTeam");
+                });
 
             modelBuilder.Entity("VctFantasy.Domain.Models.Organization", b =>
                 {
@@ -96,26 +114,14 @@ namespace VctFantasy.Domain.Migrations
                     b.Property<decimal>("Score")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizationId");
 
                     b.ToTable("Players");
-                });
-
-            modelBuilder.Entity("VctFantasy.Domain.Models.PlayerTeam", b =>
-                {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlayerId", "TeamId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("PlayerTeams");
                 });
 
             modelBuilder.Entity("VctFantasy.Domain.Models.Role", b =>
@@ -156,6 +162,9 @@ namespace VctFantasy.Domain.Migrations
                     b.Property<string>("PathLogoTeam")
                         .IsRequired()
                         .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
@@ -202,6 +211,21 @@ namespace VctFantasy.Domain.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PlayerTeam", b =>
+                {
+                    b.HasOne("VctFantasy.Domain.Models.Player", null)
+                        .WithMany()
+                        .HasForeignKey("PlayersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VctFantasy.Domain.Models.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("VctFantasy.Domain.Models.Player", b =>
                 {
                     b.HasOne("VctFantasy.Domain.Models.Organization", "Organization")
@@ -211,21 +235,6 @@ namespace VctFantasy.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Organization");
-                });
-
-            modelBuilder.Entity("VctFantasy.Domain.Models.PlayerTeam", b =>
-                {
-                    b.HasOne("VctFantasy.Domain.Models.Player", null)
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VctFantasy.Domain.Models.Team", null)
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("VctFantasy.Domain.Models.Team", b =>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VctFantasy.Domain.Context;
 
@@ -11,9 +12,11 @@ using VctFantasy.Domain.Context;
 namespace VctFantasy.Domain.Migrations
 {
     [DbContext(typeof(VctFantasyContext))]
-    partial class VctFantasyContextModelSnapshot : ModelSnapshot
+    [Migration("20260523191801_AddReferenceJoinTableTeamPlayer")]
+    partial class AddReferenceJoinTableTeamPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +118,7 @@ namespace VctFantasy.Domain.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("PlayerTeams");
+                    b.ToTable("PlayerTeam");
                 });
 
             modelBuilder.Entity("VctFantasy.Domain.Models.Role", b =>
