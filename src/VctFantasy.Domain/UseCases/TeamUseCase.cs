@@ -1,9 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using VctFantasy.Domain.Context;
-using VctFantasy.Domain.Dtos;
+using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Dtos.Response;
 using VctFantasy.Domain.Models;
 
 namespace VctFantasy.Domain.UseCases
@@ -46,6 +48,76 @@ namespace VctFantasy.Domain.UseCases
                 return ex.Message;
             }
 
+        }
+
+        public async Task<string> AddPlayerToTeam(int teamId, int playerId)
+        {
+            try
+            {
+                var playerTeam = new PlayerTeam
+                {
+                    PlayerId = playerId,
+                    TeamId = teamId
+                };
+                _context.PlayerTeams.Add(playerTeam);
+                await _context.SaveChangesAsync();
+
+                return "Player added to team successfully";
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+        }
+
+        public TeamDtoResponse GetTeam(int id)
+        {
+            try
+            {
+                var teams = _context.Teams.Include(t => t.Players).Where(t => t.Id == id).FirstOrDefault();
+
+                if (teams == null)
+                {
+                    throw new Exception("Team not found");
+                }
+
+                var teamResponse = new TeamDtoResponse()
+                {
+                    Id = teams.Id,
+                    Name = teams.Name,
+                    PathLogoTeam = teams.PathLogoTeam,
+                    Players = new List<PlayerDtoResponse>()
+
+                };
+
+                foreach (var player in teams.Players)
+                {
+                    teamResponse.Players.Add(new PlayerDtoResponse
+                    {
+                        Id = player.Id,
+                        Nickname = player.Nickname,
+                        PathProfile = player.PathProfile,
+                        Rating = player.Rating,
+                        Acs = player.Acs,
+                        Kills = player.Kills,
+                        Deaths = player.Deaths,
+                        Assists = player.Assists,
+                        Kast = player.Kast,
+                        Adr = player.Adr,
+                        Fb = player.Fb,
+                        Fd = player.Fd,
+                        Score = player.Score,
+                        OrganizationId = player.OrganizationId
+                    });
+                }
+
+                return teamResponse;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VctFantasy.Domain.Dtos
+namespace VctFantasy.Domain.Dtos.Request
 {
     public class UserDto
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VctFantasy.Domain.Dtos;
+using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.UseCases;
 using VctFantasy.Infrastructure.Services;
 

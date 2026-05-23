@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VctFantasy.Domain.Models;
 
-namespace VctFantasy.Domain.Models
+namespace VctFantasy.Domain.Dtos.Response
 {
-    public class Player
+    public class PlayerDtoResponse
     {
         public int Id { get; set; }
         public string Nickname { get; set; }
@@ -19,8 +20,6 @@ namespace VctFantasy.Domain.Models
         public int Fb { get; set; } = 0;
         public int Fd { get; set; } = 0;
         public decimal Score { get; set; } = 0;
-        public Organization Organization { get; set; }
         public int OrganizationId { get; set; }
-        public List<Team> Teams { get; set; }
     }
 }

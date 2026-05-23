@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using VctFantasy.Domain.Context;
-using VctFantasy.Domain.Dtos;
+using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.Models;
 
 namespace VctFantasy.Domain.UseCases
