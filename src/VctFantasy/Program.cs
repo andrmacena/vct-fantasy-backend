@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Services;
 using VctFantasy.Domain.UseCases;
@@ -35,7 +36,9 @@ builder.Services.AddTransient<OrganizationUseCase>();
 builder.Services.AddTransient<PlayerUseCase>();
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); 
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
