@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
 using VctFantasy.Domain.Context;
+using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.Services;
 using VctFantasy.Domain.UseCases;
 using VctFantasy.Domain.Util;
@@ -32,7 +34,7 @@ builder.Services.AddTransient<PasswordHasherService>();
 builder.Services.AddTransient<UserUseCase>();
 builder.Services.AddTransient<TeamUseCase>();
 builder.Services.AddTransient<AuthenticationUseCase>();
-builder.Services.AddTransient<OrganizationUseCase>();
+builder.Services.AddTransient<IOrganizationUseCase,OrganizationUseCase>();
 builder.Services.AddTransient<PlayerUseCase>();
 
 
