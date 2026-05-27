@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.UseCases;
 
 namespace VctFantasy.Controllers
@@ -9,8 +10,8 @@ namespace VctFantasy.Controllers
     [Route("v1/organizations")]
     public class OrganizationsController : Controller
     {
-        private readonly OrganizationUseCase _organizationUseCase;
-        public OrganizationsController(OrganizationUseCase organizationUseCase)
+        private readonly IOrganizationUseCase _organizationUseCase;
+        public OrganizationsController(IOrganizationUseCase organizationUseCase)
         {
             _organizationUseCase = organizationUseCase;
         }
@@ -19,10 +20,16 @@ namespace VctFantasy.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult RegisterOrganization([FromBody] List<OrganizationDto> organization)
         {
-            _organizationUseCase.RegisterOrganization(organization);
+            _organizationUseCase.Register(organization);
 
             return Created();
 
+        }
+        [HttpGet]
+        public IActionResult GetOrganizations()
+        {
+            // Implementation for getting organizations
+            return Ok();
         }
     }
 }

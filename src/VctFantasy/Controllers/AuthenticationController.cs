@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.UseCases;
 using VctFantasy.Infrastructure.Services;
 
@@ -10,9 +11,9 @@ namespace VctFantasy.Controllers
     public class AuthenticationController : Controller
     {
         private readonly TokenService _tokenService;
-        private readonly AuthenticationUseCase _authenticationUseCase;
+        private readonly IAuthenticationUseCase _authenticationUseCase;
 
-        public AuthenticationController(TokenService tokenService, AuthenticationUseCase authenticationUseCase)
+        public AuthenticationController(TokenService tokenService, IAuthenticationUseCase authenticationUseCase)
         {
             _tokenService = tokenService;
             _authenticationUseCase = authenticationUseCase;

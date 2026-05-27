@@ -6,11 +6,12 @@ using System.Text;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.Dtos.Response;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.Models;
 
 namespace VctFantasy.Domain.UseCases
 {
-    public class TeamUseCase
+    public class TeamUseCase: ITeamUseCase
     {
         private readonly VctFantasyContext _context;
         public TeamUseCase(VctFantasyContext context)
@@ -18,7 +19,7 @@ namespace VctFantasy.Domain.UseCases
             _context = context;
         }
 
-        public string RegisterTeam(TeamDto teamDto, string email)
+        public string Register(TeamDto teamDto, string email)
         {
             try
             {
@@ -71,7 +72,7 @@ namespace VctFantasy.Domain.UseCases
             }
         }
 
-        public TeamDtoResponse GetTeam(int id)
+        public TeamDtoResponse GetById(int id)
         {
             try
             {

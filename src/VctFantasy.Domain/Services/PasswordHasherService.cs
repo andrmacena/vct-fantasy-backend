@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using VctFantasy.Domain.Models;
+using VctFantasy.Domain.Interfaces;
 
 namespace VctFantasy.Domain.Services
 {
-    public class PasswordHasherService
+    public class PasswordHasherService: IPasswordHasherService
     {
         public string GenerateHash(string password, string salt)
         {
             var hash = Rfc2898DeriveBytes.Pbkdf2(Encoding.UTF8.GetBytes(password),
                             Encoding.UTF8.GetBytes(salt),
-                            350000, // Iterations
-                            HashAlgorithmName.SHA512,  // Algorithm
-                            64); // keysize
+                            350000, 
+                            HashAlgorithmName.SHA512,
+                            64); 
 
             var hashedStr = Convert.ToBase64String(hash);
 

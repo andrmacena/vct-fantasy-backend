@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using VctFantasy.Domain.Models;
-using VctFantasy.Domain.UseCases;
 using VctFantasy.Domain.Util;
+using VctFantasy.Infrastructure.Interfaces;
 
 namespace VctFantasy.Infrastructure.Services
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         private readonly AppSettings _appSettings;
 
@@ -50,9 +49,10 @@ namespace VctFantasy.Infrastructure.Services
             ci.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
             // TO DO: Verificar na base de dados se o usuário é admin ou user e adicionar a claim de acordo
-            ci.AddClaim(new Claim(ClaimTypes.Role, user.RoleID == (int)Role.RoleType.User ? "user": "admin"));
+            ci.AddClaim(new Claim(ClaimTypes.Role, user.RoleID == (int)Role.RoleType.User ? "user" : "admin"));
 
             return ci;
         }
+
     }
 }

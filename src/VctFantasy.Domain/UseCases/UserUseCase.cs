@@ -6,22 +6,23 @@ using System.Security.Cryptography;
 using System.Text;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.Models;
 using VctFantasy.Domain.Services;
 
 namespace VctFantasy.Domain.UseCases
 {
-    public class UserUseCase
+    public class UserUseCase: IUserUseCase
     {
         private readonly VctFantasyContext _context;
-        private readonly PasswordHasherService _hasherService;
-        public UserUseCase(VctFantasyContext context, PasswordHasherService passwordHasher)
+        private readonly IPasswordHasherService _hasherService;
+        public UserUseCase(VctFantasyContext context, IPasswordHasherService passwordHasher)
         {
             _context = context;
             _hasherService = passwordHasher;
         }
 
-        public string RegisterUser(UserDto userDto)
+        public string Register(UserDto userDto)
         {
             try
             {
