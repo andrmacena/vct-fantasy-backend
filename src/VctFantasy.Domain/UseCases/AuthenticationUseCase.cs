@@ -3,11 +3,12 @@ using System.Security.Cryptography;
 using System.Text;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.Models;
 
 namespace VctFantasy.Domain.UseCases
 {
-    public class AuthenticationUseCase
+    public class AuthenticationUseCase: IAuthenticationUseCase
     {
         private readonly VctFantasyContext _context;
         public AuthenticationUseCase(VctFantasyContext vctFantasyContext)

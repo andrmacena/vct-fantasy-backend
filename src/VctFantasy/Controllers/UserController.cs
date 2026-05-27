@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.UseCases;
 using VctFantasy.Domain.Util;
 
@@ -13,9 +14,9 @@ namespace VctFantasy.Controllers
     [Route("v1/users")]
     public class UserController : Controller
     {
-        private readonly UserUseCase _registerUserUseCase;
+        private readonly IUserUseCase _registerUserUseCase;
         private readonly AppSettings _appSettings;
-        public UserController(UserUseCase registerUserUseCase, IOptions<AppSettings> appSettings)
+        public UserController(IUserUseCase registerUserUseCase, IOptions<AppSettings> appSettings)
         {
             _registerUserUseCase = registerUserUseCase;
             _appSettings = appSettings.Value;
@@ -24,7 +25,7 @@ namespace VctFantasy.Controllers
         [HttpPost]
         public IActionResult RegisterUser([FromBody] UserDto user)
         {
-            _registerUserUseCase.RegisterUser(user);
+            _registerUserUseCase.Register(user);
 
             return Created();
         }

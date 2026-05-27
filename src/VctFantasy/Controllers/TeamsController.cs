@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.Dtos.Response;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.Models;
 using VctFantasy.Domain.UseCases;
 
@@ -11,8 +12,8 @@ namespace VctFantasy.Controllers
     [Route("v1/teams")]
     public class TeamsController : Controller
     {
-        private readonly TeamUseCase _teamUseCase;
-        public TeamsController(TeamUseCase teamUseCase)
+        private readonly ITeamUseCase _teamUseCase;
+        public TeamsController(ITeamUseCase teamUseCase)
         {
             _teamUseCase = teamUseCase;
         }
@@ -31,7 +32,7 @@ namespace VctFantasy.Controllers
                 }
             }
 
-            _teamUseCase.RegisterTeam(team, email);
+            _teamUseCase.Register(team, email);
 
             return Created();
         }
@@ -52,7 +53,7 @@ namespace VctFantasy.Controllers
         [Route("{id}")]
         public ActionResult<TeamDtoResponse> GetTeams([FromRoute] int id)
         {
-            var teams = _teamUseCase.GetTeam(id);
+            var teams = _teamUseCase.GetById(id);
 
             return Ok(teams);
         }

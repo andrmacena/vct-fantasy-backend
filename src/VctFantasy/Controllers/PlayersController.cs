@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.UseCases;
 
 namespace VctFantasy.Controllers
@@ -9,8 +10,8 @@ namespace VctFantasy.Controllers
     [Route("v1/players")]
     public class PlayersController : Controller
     {
-        private readonly PlayerUseCase _playerUseCase;
-        public PlayersController(PlayerUseCase playerUseCase)
+        private readonly IPlayerUseCase _playerUseCase;
+        public PlayersController(IPlayerUseCase playerUseCase)
         {
             _playerUseCase = playerUseCase;
         }
@@ -19,7 +20,7 @@ namespace VctFantasy.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult RegisterPlayers([FromBody] List<PlayerDto> players)
         {
-            _playerUseCase.RegisterPlayer(players);
+            _playerUseCase.Register(players);
 
             return Created();
 
@@ -29,7 +30,7 @@ namespace VctFantasy.Controllers
         [Authorize(Roles = "user")]
         public IActionResult GetPlayers()
         {
-            var players = _playerUseCase.GetPlayers();
+            var players = _playerUseCase.GetAll();
 
             return Ok(players);
         }

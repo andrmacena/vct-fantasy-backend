@@ -11,6 +11,7 @@ using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.Services;
 using VctFantasy.Domain.UseCases;
 using VctFantasy.Domain.Util;
+using VctFantasy.Infrastructure.Interfaces;
 using VctFantasy.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,26 +21,22 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-//builder.Services.Configure<AppSettings>(options => builder.Configuration.GetSection("AppSettings").Bind(options));
-
-//builder.Services.AddSingleton<AppSettings>();
-
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
 
 // Add services to the container.
-builder.Services.AddTransient<TokenService>();
-builder.Services.AddTransient<PasswordHasherService>();
+builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<IPasswordHasherService, PasswordHasherService>();
 
-builder.Services.AddTransient<UserUseCase>();
-builder.Services.AddTransient<TeamUseCase>();
-builder.Services.AddTransient<AuthenticationUseCase>();
-builder.Services.AddTransient<IOrganizationUseCase,OrganizationUseCase>();
-builder.Services.AddTransient<PlayerUseCase>();
+builder.Services.AddTransient<IUserUseCase, UserUseCase>();
+builder.Services.AddTransient<ITeamUseCase, TeamUseCase>();
+builder.Services.AddTransient<IAuthenticationUseCase, AuthenticationUseCase>();
+builder.Services.AddTransient<IOrganizationUseCase, OrganizationUseCase>();
+builder.Services.AddTransient<IPlayerUseCase, PlayerUseCase>();
 
 
 builder.Services.AddControllers().AddJsonOptions(x =>
-   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); 
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddAuthentication(x =>
 {

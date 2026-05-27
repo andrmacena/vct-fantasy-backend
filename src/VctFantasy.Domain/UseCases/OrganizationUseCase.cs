@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos.Request;
+using VctFantasy.Domain.Dtos.Response;
 using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.Models;
 
@@ -17,12 +18,12 @@ namespace VctFantasy.Domain.UseCases
             _context = context;
         }
 
-        public string Consult(OrganizationDto dto)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(OrganizationDto dto)
+        public List<OrganizationDtoResponse> GetAll()
         {
             throw new NotImplementedException();
         }
@@ -58,7 +59,7 @@ namespace VctFantasy.Domain.UseCases
             throw new NotImplementedException();
         }
 
-        public string Update(OrganizationDto dto)
+        public string Update(int id)
         {
             throw new NotImplementedException();
         }
