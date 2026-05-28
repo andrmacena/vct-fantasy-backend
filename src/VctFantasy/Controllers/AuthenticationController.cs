@@ -2,6 +2,7 @@
 using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.Interfaces;
 using VctFantasy.Domain.UseCases;
+using VctFantasy.Infrastructure.Interfaces;
 using VctFantasy.Infrastructure.Services;
 
 namespace VctFantasy.Controllers
@@ -10,10 +11,10 @@ namespace VctFantasy.Controllers
     [Route("v1/authentication")]
     public class AuthenticationController : Controller
     {
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
         private readonly IAuthenticationUseCase _authenticationUseCase;
 
-        public AuthenticationController(TokenService tokenService, IAuthenticationUseCase authenticationUseCase)
+        public AuthenticationController(ITokenService tokenService, IAuthenticationUseCase authenticationUseCase)
         {
             _tokenService = tokenService;
             _authenticationUseCase = authenticationUseCase;
