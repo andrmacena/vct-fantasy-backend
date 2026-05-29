@@ -1,4 +1,5 @@
-﻿using VctFantasy.Domain.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.Dtos.Response;
 using VctFantasy.Domain.Interfaces;
@@ -23,7 +24,7 @@ namespace VctFantasy.Domain.UseCases
                     var playerEntity = new Player
                     {
                         Nickname = player.Nickname,
-                        OrganizationId = player.OrganizationId,
+                        OrganizationId = (int)player.OrganizationId,
                         PathProfile = player.PathProfile,
                     };
                     _context.Players.Add(playerEntity);
@@ -99,7 +100,39 @@ namespace VctFantasy.Domain.UseCases
 
         public string Update(int id, PlayerDto dto)
         {
-            throw new NotImplementedException();
+            var player = _context.Players.Where(p => p.Id == id).ExecuteUpdate(p => p
+                .SetProperty(p => p.Rating, dto.Rating)
+                .SetProperty(p => p.Acs, dto.Acs)
+                .SetProperty(p => p.Kills, dto.Kills)
+                .SetProperty(p => p.Deaths, dto.Deaths)
+                .SetProperty(p => p.Assists, dto.Assists)
+                .SetProperty(p => p.Kast, dto.Kast)
+                .SetProperty(p => p.Adr, dto.Adr)
+                .SetProperty(p => p.Fb, dto.Fb)
+                .SetProperty(p => p.Fd, dto.Fd)
+                .SetProperty(p => p.Score, CalculateScore(dto)));
+
+            if (player == 0)
+                return "Player not found";
+
+            return "Player updated successfully";
+        }
+
+        private decimal CalculateScore(PlayerDto dto)
+        {
+            decimal score = 0m;
+
+            score += dto.Kills * 2.0m;
+            score += dto.Assists * 1.2m;
+            score += dto.Acs * 0.02m;
+            score += dto.Adr * 0.01m;
+            score += dto.Rating * 5m;
+            score += dto.Kast * 0.05m;
+            score += dto.Fb * 2.5m;
+            score += dto.Fd * -2.0m;
+            score += dto.Deaths * -1.0m;
+
+            return score;
         }
     }
 }

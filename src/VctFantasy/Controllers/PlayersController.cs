@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.Interfaces;
-using VctFantasy.Domain.UseCases;
 
 namespace VctFantasy.Controllers
 {
@@ -33,6 +32,19 @@ namespace VctFantasy.Controllers
             var players = _playerUseCase.GetAll();
 
             return Ok(players);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult UpdatePlayer(int id, [FromBody] PlayerDto model)
+        {
+            var result = _playerUseCase.Update(id, model);
+
+
+            if (result == "Player not found")
+                return NotFound();
+
+            return Ok(result);
         }
     }
 }
