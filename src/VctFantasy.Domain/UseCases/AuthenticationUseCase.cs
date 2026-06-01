@@ -33,9 +33,9 @@ namespace VctFantasy.Domain.UseCases
 
             bool compareResult = CryptographicOperations.FixedTimeEquals(passwordHash, Convert.FromBase64String(existingUser.PasswordHash));
 
-            if (compareResult)
+            if (!compareResult)
             {
-                return existingUser;
+                return null;
             }
 
             return existingUser;
