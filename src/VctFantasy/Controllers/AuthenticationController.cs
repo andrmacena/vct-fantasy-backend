@@ -22,19 +22,19 @@ namespace VctFantasy.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] UserDto user)
+        public async Task<IActionResult> Login([FromBody] UserDto userDto)
         {
 
-            var loginResult = await _authenticationUseCase.Login(user);
+            var user = await _authenticationUseCase.Login(userDto);
 
-            if (loginResult == null)
+            if (user == null)
             {
                 return Unauthorized("Invalid email or password.");
             }
 
-            var token = _tokenService.GenerateToken(loginResult);
+            var token = _tokenService.GenerateToken(user);
 
-            return Ok(token);
+            return Ok(new { token });
         }
 
         [HttpGet]

@@ -27,9 +27,9 @@ namespace VctFantasy.Controllers
 
         [HttpGet]
         [Authorize(Roles = "user")]
-        public IActionResult GetPlayers()
+        public async Task<IActionResult> GetPlayers()
         {
-            var players = _playerUseCase.GetAll();
+            var players = await _playerUseCase.GetAll();
 
             return Ok(players);
         }

@@ -6,8 +6,8 @@ namespace VctFantasy.Domain.Interfaces
     public interface IPlayerUseCase
     {
         string Register(List<PlayerDto> dto);
-        List<PlayerDtoResponse> GetAll();
-        PlayerDtoResponse GetById(int id);
+        Task<List<PlayerDtoResponse>> GetAll();
+        Task<PlayerDtoResponse> GetById(int id);
         string Update(int id, PlayerDto dto);
     }
 }

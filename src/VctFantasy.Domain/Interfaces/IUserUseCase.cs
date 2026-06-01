@@ -8,5 +8,6 @@ namespace VctFantasy.Domain.Interfaces
     public interface IUserUseCase
     {
         string Register(UserDto userDto);
+        string GetUserRole(int userId);
     }
 }

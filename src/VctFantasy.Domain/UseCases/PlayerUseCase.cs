@@ -40,9 +40,9 @@ namespace VctFantasy.Domain.UseCases
             }
         }
 
-        public List<PlayerDtoResponse> GetAll()
+        public async Task<List<PlayerDtoResponse>> GetAll()
         {
-            var players = _context.Players.ToList();
+            var players = await _context.Players.ToListAsync();
 
             var playerResponse = new List<PlayerDtoResponse>();
 
@@ -70,9 +70,9 @@ namespace VctFantasy.Domain.UseCases
             return playerResponse;
         }
 
-        public PlayerDtoResponse GetById(int id)
+        public async Task<PlayerDtoResponse> GetById(int id)
         {
-            var player = _context.Players.FirstOrDefault(x => x.Id == id);
+            var player = await _context.Players.FirstOrDefaultAsync(x => x.Id == id);
 
             if (player == null)
                 return null;
