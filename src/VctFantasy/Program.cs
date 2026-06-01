@@ -34,6 +34,15 @@ builder.Services.AddTransient<IAuthenticationUseCase, AuthenticationUseCase>();
 builder.Services.AddTransient<IOrganizationUseCase, OrganizationUseCase>();
 builder.Services.AddTransient<IPlayerUseCase, PlayerUseCase>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 builder.Services.AddControllers().AddJsonOptions(x =>
    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -63,6 +72,7 @@ builder.Services.AddDbContext<VctFantasyContext>(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -74,6 +84,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 
