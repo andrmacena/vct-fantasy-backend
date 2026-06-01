@@ -22,6 +22,13 @@ namespace VctFantasy.Domain.UseCases
             _hasherService = passwordHasher;
         }
 
+        public string GetUserRole(int userId)
+        {
+            var user = _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Id == userId);
+
+            return user.Role.Name;
+        }
+
         public string Register(UserDto userDto)
         {
             try
