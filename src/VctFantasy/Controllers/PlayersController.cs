@@ -34,7 +34,7 @@ namespace VctFantasy.Controllers
             return Ok(players);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         [Authorize(Roles = "admin")]
         public IActionResult UpdatePlayer(int id, [FromBody] PlayerDto model)
         {
