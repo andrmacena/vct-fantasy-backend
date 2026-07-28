@@ -41,13 +41,13 @@ namespace VctFantasy.Domain.Context
                 .HasForeignKey<Team>(t => t.Id).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<User>()
-                .Property(p => p.Email).HasColumnType("nvarchar(150)");
+                .Property(p => p.Email).HasColumnType("varchar(150)");
 
             modelBuilder.Entity<User>()
-                .Property(p => p.PasswordHash).HasColumnType("nvarchar(200)");
+                .Property(p => p.PasswordHash).HasColumnType("varchar(200)");
 
             modelBuilder.Entity<User>()
-                .Property(p => p.PasswordSalt).HasColumnType("nvarchar(200)");
+                .Property(p => p.PasswordSalt).HasColumnType("varchar(200)");
 
             modelBuilder.Entity<User>()
                 .Property(p => p.RoleID).HasDefaultValue(2);
@@ -56,16 +56,16 @@ namespace VctFantasy.Domain.Context
         private void ConfigureRoleEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>()
-                .Property(p => p.Name).HasColumnType("nvarchar(30)");
+                .Property(p => p.Name).HasColumnType("varchar(30)");
         }
 
         private void ConfigureTeamEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Team>()
-                .Property(p => p.Name).HasColumnType("nvarchar(100)");
+                .Property(p => p.Name).HasColumnType("varchar(100)");
 
             modelBuilder.Entity<Team>()
-                .Property(p => p.PathLogoTeam).HasColumnType("nvarchar(300)");
+                .Property(p => p.PathLogoTeam).HasColumnType("varchar(300)");
 
             modelBuilder.Entity<Team>().HasOne(t => t.User)
                 .WithOne(u => u.Team)
@@ -78,19 +78,19 @@ namespace VctFantasy.Domain.Context
         private void ConfigureOrganizationEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Organization>()
-                 .Property(p => p.Name).HasColumnType("nvarchar(100)");
+                 .Property(p => p.Name).HasColumnType("varchar(100)");
 
             modelBuilder.Entity<Organization>()
-                .Property(p => p.Abbreviation).HasColumnType("nvarchar(10)");
+                .Property(p => p.Abbreviation).HasColumnType("varchar(10)");
 
             modelBuilder.Entity<Organization>()
-                .Property(p => p.PathLogoOrg).HasColumnType("nvarchar(300)");
+                .Property(p => p.PathLogoOrg).HasColumnType("varchar(300)");
         }
 
         private void ConfigurePlayerEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Player>()
-                .Property(p => p.Nickname).HasColumnType("nvarchar(50)");
+                .Property(p => p.Nickname).HasColumnType("varchar(50)");
 
             modelBuilder.Entity<Player>()
                 .Property(p => p.Rating).HasColumnType("decimal(18,2)");
