@@ -49,7 +49,7 @@ namespace VctFantasy.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Database error: {ex.Message}");
-                throw;
+                return BadRequest(ex.Message);
             }
             finally
             {
