@@ -65,9 +65,18 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddAuthorization();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
+var connectionString = builder.Configuration["AppSettings:DefaultConnection"];
+
+Console.WriteLine($"Connection string: {connectionString}");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'AppSettings:DefaultConnection' not found.");
+}
+
 
 builder.Services.AddDbContext<VctFantasyContext>(options =>
-    options.UseNpgsql(builder.Configuration["AppSettings:DefaultConnection"]));
+    options.UseNpgsql());
 
 
 var app = builder.Build();
