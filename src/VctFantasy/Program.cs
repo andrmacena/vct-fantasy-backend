@@ -64,10 +64,10 @@ builder.Services.AddAuthentication(x =>
 }); ;
 builder.Services.AddAuthorization();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+//builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<VctFantasyContext>(options =>
-    options.UseSqlServer(builder.Configuration["AppSettings:DefaultConnection"]));
+    options.UseNpgsql(builder.Configuration["AppSettings:DefaultConnection"]));
 
 
 var app = builder.Build();
