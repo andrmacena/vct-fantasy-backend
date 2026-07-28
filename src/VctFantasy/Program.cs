@@ -76,7 +76,7 @@ if (string.IsNullOrEmpty(connectionString))
 
 
 builder.Services.AddDbContext<VctFantasyContext>(options =>
-    options.UseNpgsql());
+    options.UseNpgsql(connectionString));
 
 
 var app = builder.Build();
