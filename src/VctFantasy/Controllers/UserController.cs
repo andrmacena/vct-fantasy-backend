@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
+using Npgsql;
 using VctFantasy.Domain.Context;
 using VctFantasy.Domain.Dtos.Request;
 using VctFantasy.Domain.Interfaces;
@@ -36,14 +36,14 @@ namespace VctFantasy.Controllers
         public IActionResult Conexao()
         {
 
-            var cmd = new SqlCommand();
+            var cmd = new NpgsqlCommand();
             var cs = _appSettings.DefaultConnection;
-            SqlConnection conn = null;
+            NpgsqlConnection conn = null;
             try
             {
-                conn = new SqlConnection(cs);
+                conn = new NpgsqlConnection(cs);
                 conn.Open();
-                cmd = new SqlCommand("SELECT @@VERSION", conn);
+                cmd = new NpgsqlCommand("SELECT version()", conn);
                 return Ok(cmd.ExecuteScalar());
             }
             catch (Exception ex)

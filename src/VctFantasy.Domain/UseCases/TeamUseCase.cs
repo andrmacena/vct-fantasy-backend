@@ -1,5 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,12 +39,7 @@ namespace VctFantasy.Domain.UseCases
                 return "Time registrado com sucesso!";
 
             }
-            catch (SqlException ex)
-            {
-
-                return ex.Message;
-            }
-            catch (Exception ex)
+            catch (NpgsqlException ex)
             {
                 return ex.Message;
             }

@@ -11,7 +11,7 @@ namespace VctFantasy.Domain.Models
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string? PasswordSalt { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public int RoleID { get; set; }
         public Role Role { get; set; }
         public Team Team { get; set; }

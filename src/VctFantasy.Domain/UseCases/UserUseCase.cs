@@ -1,5 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -50,7 +50,7 @@ namespace VctFantasy.Domain.UseCases
 
                 return "User registered successfully";
             }
-            catch (SqlException ex)
+            catch (NpgsqlException ex)
             {
                 return ex.Message;
             }
