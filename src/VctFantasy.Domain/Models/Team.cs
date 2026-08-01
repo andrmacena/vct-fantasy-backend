@@ -9,7 +9,7 @@ namespace VctFantasy.Domain.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string PathLogoTeam { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public User User { get; set; }
         public int UserID { get; set; }
         public List<Player> Players { get; set; }
