@@ -67,27 +67,30 @@ namespace VctFantasy.Domain.UseCases
             }
         }
 
-        public TeamDtoResponse GetById(int id)
+        public TeamDtoResponse Get(string email)
         {
             try
             {
-                var teams = _context.Teams.Include(t => t.Players).Where(t => t.Id == id).FirstOrDefault();
+                var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
-                if (teams == null)
+                var team = _context.Teams.Include(t => t.Players)
+                    .Where(t => t.UserID == user.Id)
+                    .FirstOrDefault();
+
+                if (team == null)
                 {
                     throw new Exception("Team not found");
                 }
 
                 var teamResponse = new TeamDtoResponse()
                 {
-                    Id = teams.Id,
-                    Name = teams.Name,
-                    PathLogoTeam = teams.PathLogoTeam,
+                    Id = team.Id,
+                    Name = team.Name,
+                    PathLogoTeam = team.PathLogoTeam,
                     Players = new List<PlayerDtoResponse>()
-
                 };
 
-                foreach (var player in teams.Players)
+                foreach (var player in team.Players)
                 {
                     teamResponse.Players.Add(new PlayerDtoResponse
                     {
@@ -112,6 +115,7 @@ namespace VctFantasy.Domain.UseCases
             }
             catch (Exception ex)
             {
+
                 throw new Exception(ex.Message);
             }
         }
