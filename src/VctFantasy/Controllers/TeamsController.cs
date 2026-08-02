@@ -38,7 +38,7 @@ namespace VctFantasy.Controllers
         }
 
         [HttpPost]
-        [Route("teams/{teamId}/players/{playerId}")]
+        [Route("{teamId}/players/{playerId}")]
         [Authorize(Roles = "user")]
         public async Task<IActionResult> AddPlayerTeam([FromRoute] int teamId, [FromRoute] int playerId)
         {
