@@ -50,12 +50,22 @@ namespace VctFantasy.Controllers
 
         [HttpGet]
         [Authorize(Roles = "user")]
-        [Route("{id}")]
-        public ActionResult<TeamDtoResponse> GetTeams([FromRoute] int id)
+        public ActionResult<TeamDtoResponse> GetTeam()
         {
-            var teams = _teamUseCase.GetById(id);
+            string email = string.Empty;
 
-            return Ok(teams);
+            foreach (var claim in User.Claims)
+            {
+                if (claim.Type.Contains("email"))
+                {
+                    email = claim.Value;
+                }
+            }
+
+            var team = _teamUseCase.Get(email);
+
+            return Ok(team);
         }
+
     }
 }
