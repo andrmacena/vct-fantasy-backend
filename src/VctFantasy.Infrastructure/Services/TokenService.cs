@@ -57,6 +57,8 @@ namespace VctFantasy.Infrastructure.Services
 
             ci.AddClaim(new Claim(ClaimTypes.Role, userRole));
 
+            ci.AddClaim(new Claim(ClaimTypes.Name, user.Nickname));
+
             return ci;
         }
 
