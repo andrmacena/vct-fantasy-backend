@@ -33,6 +33,7 @@ builder.Services.AddTransient<ITeamUseCase, TeamUseCase>();
 builder.Services.AddTransient<IAuthenticationUseCase, AuthenticationUseCase>();
 builder.Services.AddTransient<IOrganizationUseCase, OrganizationUseCase>();
 builder.Services.AddTransient<IPlayerUseCase, PlayerUseCase>();
+builder.Services.AddTransient<ILeaderboard, LeaderboardUseCase>();
 
 builder.Services.AddCors(options =>
 {

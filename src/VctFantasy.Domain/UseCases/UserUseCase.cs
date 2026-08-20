@@ -12,7 +12,7 @@ using VctFantasy.Domain.Services;
 
 namespace VctFantasy.Domain.UseCases
 {
-    public class UserUseCase: IUserUseCase
+    public class UserUseCase : IUserUseCase
     {
         private readonly VctFantasyContext _context;
         private readonly IPasswordHasherService _hasherService;
@@ -33,13 +33,14 @@ namespace VctFantasy.Domain.UseCases
         {
             try
             {
-                
+
                 var salt = _hasherService.GenerateSalt();
                 var passwordHash = _hasherService.GenerateHash(userDto.Password, salt);
 
                 var user = new User
                 {
-                    Email = userDto.Email
+                    Email = userDto.Email,
+                    Nickname = userDto.Nickname,
                 };
 
                 user.PasswordHash = passwordHash;

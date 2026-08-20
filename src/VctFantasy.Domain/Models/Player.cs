@@ -19,6 +19,7 @@ namespace VctFantasy.Domain.Models
         public int Fb { get; set; } = 0;
         public int Fd { get; set; } = 0;
         public decimal Score { get; set; } = 0;
+        public bool Active { get; set; }
         public Organization Organization { get; set; }
         public int OrganizationId { get; set; }
         public List<Team> Teams { get; set; }
