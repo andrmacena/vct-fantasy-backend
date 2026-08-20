@@ -50,6 +50,9 @@ namespace VctFantasy.Domain.Context
                 .Property(p => p.PasswordSalt).HasColumnType("varchar(200)");
 
             modelBuilder.Entity<User>()
+                .Property(p => p.Nickname).HasColumnType("varchar(100)");
+
+            modelBuilder.Entity<User>()
                 .Property(p => p.RoleID).HasDefaultValue(2);
         }
 
