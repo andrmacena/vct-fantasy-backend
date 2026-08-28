@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Npgsql;
-using VctFantasy.Domain.Context;
-using VctFantasy.Domain.Dtos.Request;
-using VctFantasy.Domain.Interfaces;
-using VctFantasy.Domain.UseCases;
+using VctFantasy.Application.Dtos.Request;
+using VctFantasy.Application.Interfaces;
 using VctFantasy.Domain.Util;
 
 namespace VctFantasy.Controllers
@@ -16,16 +13,20 @@ namespace VctFantasy.Controllers
     {
         private readonly IUserUseCase _registerUserUseCase;
         private readonly AppSettings _appSettings;
-        public UserController(IUserUseCase registerUserUseCase, IOptions<AppSettings> appSettings)
+        private readonly IEmailService _emailService;
+        public UserController(IUserUseCase registerUserUseCase, IOptions<AppSettings> appSettings, IEmailService emailService)
         {
             _registerUserUseCase = registerUserUseCase;
             _appSettings = appSettings.Value;
+            _emailService = emailService;
         }
 
         [HttpPost]
         public IActionResult RegisterUser([FromBody] UserDto user)
         {
             _registerUserUseCase.Register(user);
+
+            _emailService.SendEmail(user.Email, "Welcome to VctFantasy", "Thank you for registering!");
 
             return Created();
         }

@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VctFantasy.Domain.Dtos.Request;
-using VctFantasy.Domain.Interfaces;
-using VctFantasy.Domain.UseCases;
-using VctFantasy.Infrastructure.Interfaces;
-using VctFantasy.Infrastructure.Services;
+using VctFantasy.Application.Dtos.Request;
+using VctFantasy.Application.Interfaces;
 
 namespace VctFantasy.Controllers
 {

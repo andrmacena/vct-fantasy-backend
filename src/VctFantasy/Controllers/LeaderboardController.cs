@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VctFantasy.Domain.Interfaces;
+using VctFantasy.Application.Interfaces;
 
 namespace VctFantasy.Controllers
 {
