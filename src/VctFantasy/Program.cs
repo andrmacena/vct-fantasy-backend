@@ -1,18 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
-using VctFantasy.Domain.Context;
-using VctFantasy.Domain.Dtos.Request;
-using VctFantasy.Domain.Interfaces;
-using VctFantasy.Domain.Services;
-using VctFantasy.Domain.UseCases;
+using VctFantasy.Infrastructure.Context;
+using VctFantasy.Application.Interfaces;
+using VctFantasy.Application.Services;
+using VctFantasy.Application.UseCases;
 using VctFantasy.Domain.Util;
-using VctFantasy.Infrastructure.Interfaces;
-using VctFantasy.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +22,7 @@ builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<AppSettings>>
 
 // Add services to the container.
 builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddTransient<IPasswordHasherService, PasswordHasherService>();
 
 builder.Services.AddTransient<IUserUseCase, UserUseCase>();

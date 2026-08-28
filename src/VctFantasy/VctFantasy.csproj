@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VctFantasy.Application\VctFantasy.Application.csproj" />
     <ProjectReference Include="..\VctFantasy.Infrastructure\VctFantasy.Infrastructure.csproj" />
   </ItemGroup>
 

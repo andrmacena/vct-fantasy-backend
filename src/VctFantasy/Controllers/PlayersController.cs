@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VctFantasy.Domain.Dtos.Request;
-using VctFantasy.Domain.Interfaces;
+using VctFantasy.Application.Dtos.Request;
+using VctFantasy.Application.Interfaces;
 
 namespace VctFantasy.Controllers
 {

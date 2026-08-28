@@ -1,5 +1,7 @@
 <Solution>
+  <Project Path="VctFantasy.Application/VctFantasy.Application.csproj" Id="6619012d-4038-4df8-a7e9-16e7f3aa8cff" />
   <Project Path="VctFantasy.Domain/VctFantasy.Domain.csproj" Id="36ee28cf-21f7-49fd-a358-c0e8005b93bc" />
   <Project Path="VctFantasy.Infrastructure/VctFantasy.Infrastructure.csproj" Id="e1213c2d-f8c7-46d7-9025-d1207c71490d" />
+  <Project Path="VctFantasy.Tests/VctFantasy.Tests.csproj" Id="561e5944-f4a6-4e5e-a091-773239657cdc" />
   <Project Path="VctFantasy/VctFantasy.csproj" />
 </Solution>
