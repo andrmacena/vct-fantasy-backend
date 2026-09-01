@@ -48,7 +48,7 @@ namespace VctFantasy.Controllers
 
         [HttpGet]
         [Authorize(Roles = "user")]
-        public ActionResult<TeamDtoResponse> GetTeam()
+        public IActionResult GetTeam()
         {
             string email = string.Empty;
 
@@ -60,9 +60,14 @@ namespace VctFantasy.Controllers
                 }
             }
 
-            var team = _teamUseCase.Get(email);
+            var response = _teamUseCase.Get(email);
 
-            return Ok(team);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+
+            return NotFound(response);
         }
 
     }
