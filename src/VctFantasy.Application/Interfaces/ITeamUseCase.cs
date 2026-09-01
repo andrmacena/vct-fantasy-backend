@@ -10,6 +10,6 @@ namespace VctFantasy.Application.Interfaces
     {
         string Register(TeamDto teamDto, string email);
         Task<string> AddPlayerToTeam(int teamId, int playerId);
-        TeamDtoResponse Get(string email);
+        BaseResponse<TeamDtoResponse> Get(string email);
     }
 }

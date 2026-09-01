@@ -64,7 +64,7 @@ namespace VctFantasy.Application.UseCases
             }
         }
 
-        public TeamDtoResponse Get(string email)
+        public BaseResponse<TeamDtoResponse> Get(string email)
         {
             try
             {
@@ -76,7 +76,9 @@ namespace VctFantasy.Application.UseCases
 
                 if (team == null)
                 {
-                    throw new Exception("Team not found");
+                    BaseResponse<TeamDtoResponse> notFoundResponse = BaseResponse<TeamDtoResponse>.Fail("Time não encontrado para o usuário.");
+
+                    return notFoundResponse;
                 }
 
                 var teamResponse = new TeamDtoResponse()
@@ -108,7 +110,9 @@ namespace VctFantasy.Application.UseCases
                     });
                 }
 
-                return teamResponse;
+                var teamResponseWrapper = BaseResponse<TeamDtoResponse>.Ok(teamResponse, "Time encontrado com sucesso.");
+
+                return teamResponseWrapper;
             }
             catch (Exception ex)
             {
