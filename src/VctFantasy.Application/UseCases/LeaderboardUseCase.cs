@@ -8,14 +8,14 @@ using VctFantasy.Application.Interfaces;
 
 namespace VctFantasy.Application.UseCases
 {
-    public class LeaderboardUseCase: ILeaderboard
+    public class LeaderboardUseCase : ILeaderboardUseCase
     {
         private readonly VctFantasyContext _context;
         public LeaderboardUseCase(VctFantasyContext context)
         {
             _context = context;
         }
-        public List<LeaderboardDtoResponse> GeneralLeaderboard()
+        public BaseResponse<LeaderboardDtoResponse> GeneralLeaderboard()
         {
 
             var result = _context.Users.Join(_context.Teams, u => u.Id, t => t.UserID, (u, t) => new { User = u, Team = t })
@@ -42,9 +42,12 @@ namespace VctFantasy.Application.UseCases
                     TotalScore = item.TotalScore,
                     TeamName = item.TeamName
                 });
+
             }
 
-            return leaderboard;
+            var ok = BaseResponse<LeaderboardDtoResponse>.OkList(leaderboard, "Leaderboard retrieved successfully");
+
+            return ok;
         }
     }
 }

@@ -4,6 +4,7 @@ using VctFantasy.Application.Dtos.Request;
 using VctFantasy.Application.Dtos.Response;
 using VctFantasy.Application.Interfaces;
 using VctFantasy.Domain.Models;
+using System.Buffers.Text;
 
 namespace VctFantasy.Application.UseCases
 {
@@ -40,7 +41,7 @@ namespace VctFantasy.Application.UseCases
             }
         }
 
-        public async Task<List<PlayerDtoResponse>> GetAll()
+        public async Task<BaseResponse<PlayerDtoResponse>> GetAll()
         {
             var players = await _context.Players.ToListAsync();
 
@@ -67,7 +68,9 @@ namespace VctFantasy.Application.UseCases
                 });
             }
 
-            return playerResponse;
+            var retorno = BaseResponse<PlayerDtoResponse>.OkList(playerResponse, "Players retrieved successfully");
+
+            return retorno;
         }
 
         public async Task<PlayerDtoResponse> GetById(int id)

@@ -16,4 +16,10 @@
     <ProjectReference Include="..\VctFantasy.Infrastructure\VctFantasy.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Services\welcome-email.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

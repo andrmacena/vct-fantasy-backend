@@ -5,5 +5,6 @@ namespace VctFantasy.Domain.Util
     {
         public string DefaultConnection { get; set; }
         public string SecretKey { get; set; }
+        public string Resendkey { get; set; }
     }
 }

@@ -24,11 +24,14 @@ namespace VctFantasy.Controllers
             return Created();
 
         }
+
         [HttpGet]
+        [Authorize(Roles = "user")]
         public IActionResult GetOrganizations()
         {
-            // Implementation for getting organizations
-            return Ok();
+            var response = _organizationUseCase.GetAll();
+
+            return Ok(response);
         }
     }
 }

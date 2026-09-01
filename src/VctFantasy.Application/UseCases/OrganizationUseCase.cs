@@ -23,9 +23,21 @@ namespace VctFantasy.Application.UseCases
             throw new NotImplementedException();
         }
 
-        public List<OrganizationDtoResponse> GetAll()
+        public BaseResponse<OrganizationDtoResponse> GetAll()
         {
-            throw new NotImplementedException();
+            var orgs = _context.Organizations.ToList();
+
+            var orgDtos = orgs.Select(org => new OrganizationDtoResponse
+            {
+                Id = org.Id,
+                Name = org.Name,
+                Abbreviation = org.Abbreviation,
+                PathLogoOrg = org.PathLogoOrg
+            }).ToList();
+
+            var resultado = BaseResponse<OrganizationDtoResponse>.OkList(orgDtos, "Organizações recuperadas com sucesso!");
+            
+            return resultado;
         }
 
         public string Register(List<OrganizationDto> organization)

@@ -31,7 +31,7 @@ namespace VctFantasy.Controllers
 
             var token = _tokenService.GenerateToken(user);
 
-            return Ok(new { token });
+            return Ok(token);
         }
 
         [HttpGet]
