@@ -5,8 +5,8 @@ using VctFantasy.Application.Dtos.Response;
 
 namespace VctFantasy.Application.Interfaces
 {
-    public interface ILeaderboard
+    public interface ILeaderboardUseCase
     {
-        public List<LeaderboardDtoResponse> GeneralLeaderboard();
+        public BaseResponse<LeaderboardDtoResponse> GeneralLeaderboard();
     }
 }

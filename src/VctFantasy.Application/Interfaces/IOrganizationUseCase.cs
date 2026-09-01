@@ -11,7 +11,7 @@ namespace VctFantasy.Application.Interfaces
         string Register(List<OrganizationDto> dto);
         string Register(OrganizationDto dto);
         string Update(int id);
-        List<OrganizationDtoResponse> GetAll();
+        BaseResponse<OrganizationDtoResponse> GetAll();
         void Delete(int id);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using VctFantasy.Application.Dtos.Response;
 using VctFantasy.Application.Interfaces;
 using VctFantasy.Domain.Models;
 using VctFantasy.Domain.Util;
@@ -21,7 +22,7 @@ namespace VctFantasy.Application.Services
             _userUseCase = userUseCase;
         }
 
-        public string GenerateToken(User user)
+        public BaseResponse<TokenDtoResponse> GenerateToken(User user)
         {
             var handler = new JwtSecurityTokenHandler();
 
@@ -42,7 +43,15 @@ namespace VctFantasy.Application.Services
             // Gera uma string do Token
             var strToken = handler.WriteToken(token);
 
-            return strToken;
+            var tokenResponse = new TokenDtoResponse
+            {
+                Token = strToken,
+                Expires = tokenDescriptor.Expires ?? DateTime.UtcNow.AddHours(2)
+            };
+
+            var retorno = BaseResponse<TokenDtoResponse>.Ok(tokenResponse, "Token gerado com sucesso");
+
+            return retorno;
         }
 
         private ClaimsIdentity GenerateClaims(User user)
